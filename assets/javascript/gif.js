@@ -45,3 +45,35 @@ $("#buttonArea").on("click", ".btn", function(){
 
   }).done(function(response){
     console.log(response);
+
+    var spitOut = response.data;
+
+    for (var i = 0; i < spitOut.length; i++) {
+      // make a dic to hold the gift
+          var topicDiv = $("<div>");
+          var p = $("<p>");
+          // display the rating of gif
+          p.text(spitOut[i].rating);
+          var p = $("<p>").text("Rating: " + spitOut[i].);
+
+
+          var topicGif = $("<img>");
+
+          topicGif.attr("src", spitOut[i].images.fixed_height_still.url);
+          topicGif.attr("data-still", spitOut[i].images.fixed_height_still.url);
+          topicGif.attr("data-animate", spitOut[i].images.fixed_height_still.url);
+          topicGif.attr("data-animate", "still")
+          topicGif.addClass("gif");
+
+
+
+
+
+
+
+
+
+
+
+
+    }
