@@ -1,9 +1,13 @@
+// create initial array
+
 var movies = ["There Will Be Blood", "Eternal Sunshine of the Spotless Mind", "Paths of Glory", "Oldboy", "Repo Man", "Sicario", "Maltese Falcon"];
 
+// new movie added into the input field
 var button;
-var newMovie = ""; // new topic that will be added via the input field 
+var newMovie = ""; 
 
-// function to create new buttons from the movies array
+
+// function that will create new buttons from the movies array
 var buttonGenerator = function (){
 	// the previous div elements are emptied 
 	 $("#buttonArea").empty();
@@ -15,10 +19,10 @@ var buttonGenerator = function (){
 }
 
 
-// The user clicks on a generated orange button, which generates 10 static, non-animated gif images from the GIPHY API and places them on the page. 
+// The user clicks on a generated a button, which generates 5 static gif images from the GIPHY API and places them on the page. 
 $("#buttonArea").on("click", ".btn", function(){
-  		var thing = $(this).attr("data");
-  		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + thing + "&api_key=dc6zaTOxFJmzC&limit=10";
+  		var needThis = $(this).attr("data");
+  		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + needThis + "&api_key=cJnSNW7hTSPwWXTIlkH0nCU4XCWoFEIB&limit=5";
 
 
 
@@ -33,7 +37,7 @@ $("#buttonArea").on("click", ".btn", function(){
 
           	for (var i = 0; i < results.length; i++) {
           		// a div is created to hold a gif of any topic
-	          	var topicDiv = $("<div>");
+	          	var movieDiv = $("<div>");
 	 			
 	          	// Under every gif, display its rating (PG, G, so on).
 	 			var p = $("<p>");
@@ -41,21 +45,21 @@ $("#buttonArea").on("click", ".btn", function(){
 	 			var p = $("<p>").text("Rating: " + results[i].rating);
 
 	 			// add a CSS style to create colored borders around the gifs
-	 			var topicImage = $("<img>").addClass("orangeBorder");
+	 			var topicGif = $("<img>");
 
 	 			// add states of animate and still which will be toggled 
-	 			topicImage.attr("src", results[i].images.fixed_height_still.url);
-	 			topicImage.attr("data-still", results[i].images.fixed_height_still.url);
-	 			topicImage.attr("data-animate", results[i].images.fixed_height.url)
-	 			topicImage.attr("data-state", "still")
-	 			topicImage.addClass("gif");
+	 			topicGif.attr("src", results[i].images.fixed_height_still.url);
+	 			topicGif.attr("data-still", results[i].images.fixed_height_still.url);
+	 			topicGif.attr("data-animate", results[i].images.fixed_height.url)
+	 			topicGif.attr("data-state", "still")
+	 			topicGif.addClass("gif");
 	 			
 	 			// image is appended to the div
-	 			topicDiv.append(topicImage);
+	 			movieDiv.append(topicGif);
 	 			// rating is appended to the div below the gif
-	 			topicDiv.append(p); 			
+	 			movieDiv.append(p); 			
 	 			// new images will be placed at the beginning (top) of the containing gif area
-	 			$("#gifArea").prepend(topicDiv);
+	 			$("#gifArea").prepend(movieDiv);
  			}
   		})
   })
