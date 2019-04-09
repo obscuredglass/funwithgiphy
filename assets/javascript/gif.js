@@ -49,7 +49,7 @@ $("#buttonArea").on("click", ".btn", function(){
     var spitOut = response.data;
 
     for (var i = 0; i < spitOut.length; i++) {
-      // make a dic to hold the gift
+      // make a div to hold the gif
           var topicDiv = $("<div>");
           var p = $("<p>");
           // display the rating of gif
@@ -58,14 +58,42 @@ $("#buttonArea").on("click", ".btn", function(){
 
 
           var topicGif = $("<img>");
-
+          // states of the gif
           topicGif.attr("src", spitOut[i].images.fixed_height_still.url);
           topicGif.attr("data-still", spitOut[i].images.fixed_height_still.url);
           topicGif.attr("data-animate", spitOut[i].images.fixed_height_still.url);
           topicGif.attr("data-animate", "still")
           topicGif.addClass("gif");
+          // image added to the div
+          topicDiv.append(topicGif);
+          // add rating to gif
+          topicDiv.append(p);
+          // new images added on top of older images
+          $("gifArea").prepend(topicDiv);
+
+        }
+  		})
+  })
 
 
+          // when clicked once it animates when clicked again it stops
+          $("#gifArea").on("click", ".gif", function(event) {
+            event.preventDefault();
+
+            var stateOf = $(this).attr("data-state");
+
+            if (stateOf === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+            }
+            else {
+              $(this).attr("src", $(this).attr("data-still"));
+              $(this).attr("data-state", "still");
+            }
+
+          })
+
+          
 
 
 
