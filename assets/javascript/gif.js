@@ -1,107 +1,101 @@
-// choices to that off with
-
-var movieChoices = ["Re-Animator", "Thin Red Line", "Repo Man", "Sicario", "Layer Cake", "Trainspotting", "Brick", "Children of Men", "City of God", "Casablanca", "Oldboy", "There Will Be Blood"];
-var movieImage = "";
-
-// show the array of choices i've made
+var movies = ["There Will Be Blood", "Eternal Sunshine of the Spotless Mind", "Paths of Glory", "Oldboy", "Repo Man", "Sicario", "Maltese Falcon"];
 
 var button;
-var newMovieChoices = ""; // new movieChoice that will be added via the input field 
+var newMovie = ""; // new topic that will be added via the input field 
 
-// function to create new buttons from the movieChoices array
+// function to create new buttons from the movies array
 var buttonGenerator = function (){
 	// the previous div elements are emptied 
 	 $("#buttonArea").empty();
 	// loops through the array and creates buttons
-	for(i = 0; i < movieChoices.length; i++) {
-		button = $("<button type=" + "button" + ">" + movieChoices[i] + "</button>").addClass("btn btn-warning").attr("data",movieChoices[i]);
+	for(i = 0; i < movies.length; i++) {
+		button = $("<button type=" + "button" + ">" + movies[i] + "</button>").addClass("btn btn-warning").attr("data",movies[i]);
 		$("#buttonArea").append(button);
 	};
 }
-// The user clicks on a button, which generates 5 static, non-animated gif images from the GIPHY API and places them on the page. 
+
+
+// The user clicks on a generated orange button, which generates 10 static, non-animated gif images from the GIPHY API and places them on the page. 
 $("#buttonArea").on("click", ".btn", function(){
-  var stuff = $(this).attr("data");
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + stuff + "&api_key=cJnSNW7hTSPwWXTIlkH0nCU4XCWoFEIB&limit=5";
+  		var thing = $(this).attr("data");
+  		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + thing + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 
 
-  $.ajax({
-    url: queryURL,
-    method: "GET" 
+  		$.ajax({
+  			url: queryURL,
+  			method: "GET" 
 
-  }).done(function(response){
-    console.log(response);
+  		}).done(function(response){
+  			console.log(response);
+  			
+          	var results = response.data;
 
-  // The user clicks on a button, which generates 5 static, non-animated gif images from the GIPHY API and places them on the page. 
-$("#buttonArea").on("click", ".btn", function(){
-  var stuff = $(this).attr("data");
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + stuff + "&api_key=cJnSNW7hTSPwWXTIlkH0nCU4XCWoFEIB&limit=5";
+          	for (var i = 0; i < results.length; i++) {
+          		// a div is created to hold a gif of any topic
+	          	var topicDiv = $("<div>");
+	 			
+	          	// Under every gif, display its rating (PG, G, so on).
+	 			var p = $("<p>");
+	 			p.text(results[i].rating);
+	 			var p = $("<p>").text("Rating: " + results[i].rating);
 
+	 			// add a CSS style to create colored borders around the gifs
+	 			var topicImage = $("<img>").addClass("orangeBorder");
 
-
-  $.ajax({
-    url: queryURL,
-    method: "GET" 
-
-  }).done(function(response){
-    console.log(response);
-
-    var spitOut = response.data;
-
-    for (var i = 0; i < spitOut.length; i++) {
-      // make a div to hold the gif
-          var topicDiv = $("<div>");
-          var p = $("<p>");
-          // display the rating of gif
-          p.text(spitOut[i].rating);
-          var p = $("<p>").text("Rating: " + spitOut[i].);
-
-
-          var topicGif = $("<img>");
-          // states of the gif
-          topicGif.attr("src", spitOut[i].images.fixed_height_still.url);
-          topicGif.attr("data-still", spitOut[i].images.fixed_height_still.url);
-          topicGif.attr("data-animate", spitOut[i].images.fixed_height_still.url);
-          topicGif.attr("data-animate", "still")
-          topicGif.addClass("gif");
-          // image added to the div
-          topicDiv.append(topicGif);
-          // add rating to gif
-          topicDiv.append(p);
-          // new images added on top of older images
-          $("gifArea").prepend(topicDiv);
-
-        }
+	 			// add states of animate and still which will be toggled 
+	 			topicImage.attr("src", results[i].images.fixed_height_still.url);
+	 			topicImage.attr("data-still", results[i].images.fixed_height_still.url);
+	 			topicImage.attr("data-animate", results[i].images.fixed_height.url)
+	 			topicImage.attr("data-state", "still")
+	 			topicImage.addClass("gif");
+	 			
+	 			// image is appended to the div
+	 			topicDiv.append(topicImage);
+	 			// rating is appended to the div below the gif
+	 			topicDiv.append(p); 			
+	 			// new images will be placed at the beginning (top) of the containing gif area
+	 			$("#gifArea").prepend(topicDiv);
+ 			}
   		})
   })
 
 
-          // when clicked once it animates when clicked again it stops
-          $("#gifArea").on("click", ".gif", function(event) {
-            event.preventDefault();
+// When the user clicks one of the still GIPHY images, and it animates. When the user clicks the gif again, it stops playing.
+$("#gifArea").on("click", ".gif", function(event){
+	event.preventDefault();
+	
+	// gets the current state of the clicked gif 
+	var state = $(this).attr("data-state");
+	
+	// according to the current state gifs toggle between animate and still 
+	if (state === "still") {
+    $(this).attr("src", $(this).attr("data-animate"));
+    $(this).attr("data-state", "animate");
+  } else {
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "still");
+  }
 
-            var stateOf = $(this).attr("data-state");
+})
+   
 
-            if (stateOf === "still") {
-            $(this).attr("src", $(this).attr("data-animate"));
-            $(this).attr("data-state", "animate");
-            }
-            else {
-              $(this).attr("src", $(this).attr("data-still"));
-              $(this).attr("data-state", "still");
-            }
-
-          })
-
-          
-
-
-
-
+// The form takes the value from the input box and adds it into the movies  array. The buttonGenerator function is called that takes each topic in the array remakes the buttons on the page.
 
 
+$(".submit").on("click", function(event){
+	event.preventDefault();
+
+	console.log("submit");
+	// sets inputted value to newMovie 
+	newMovie = $("#topic-input").val();
+	// new topic is added to the movies array 
+	movies.push(newMovie);
+	console.log(movies);
+	// call the function that creates the new button
+	buttonGenerator();
+});
 
 
 
-
-    }
+buttonGenerator();
