@@ -8,7 +8,7 @@ var newMovie = "";
 
 
 // function that will create new buttons from the movies array
-var buttonGenerator = function (){
+var buttonMaker = function (){
 	// the previous div elements are emptied 
 	 $("#buttonArea").empty();
 	// loops through the array and creates buttons
@@ -84,7 +84,7 @@ $("#gifArea").on("click", ".gif", function(event){
 })
    
 
-// The form takes the value from the input box and adds it into the movies  array. The buttonGenerator function is called that takes each topic in the array remakes the buttons on the page.
+// The form takes the value from the input box and adds it into the movies array. The buttonMaker function is called that takes each topic in the array remakes the buttons on the page.
 
 
 $(".submit").on("click", function(event){
@@ -97,9 +97,9 @@ $(".submit").on("click", function(event){
 	movies.push(newMovie);
 	console.log(movies);
 	// call the function that creates the new button
-	buttonGenerator();
+	buttonMaker();
 });
 
 
 
-buttonGenerator();
+buttonMaker();

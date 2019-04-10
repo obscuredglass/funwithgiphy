@@ -3,6 +3,20 @@ body {
 
 }
 
-h3, label, button {
+h3 {
   color: white;
+  font-family: 'Fascinate Inline', cursive;
+}
+
+label, button {
+  color: white;
+  font-family: 'Varela Round', sans-serif;
+}
+
+
+
+
+#buttonArea {
+  margin-bottom: 20px;
+  font-family: 'Signika', sans-serif;
 }
