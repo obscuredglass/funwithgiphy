@@ -39,7 +39,7 @@ $("#buttonArea").on("click", ".btn", function(){
           		// a div is created to hold a gif of any topic
 	          	var movieDiv = $("<div>");
 	 			
-	          	// Under every gif, display its rating (PG, G, so on).
+	          	// put rating under each gif
 	 			var p = $("<p>");
 	 			p.text(results[i].rating);
 	 			var p = $("<p>").text("Rating: " + results[i].rating);
@@ -70,10 +70,10 @@ $("#gifArea").on("click", ".gif", function(event){
 	event.preventDefault();
 	
 	// gets the current state of the clicked gif 
-	var state = $(this).attr("data-state");
+	var stateOf = $(this).attr("data-state");
 	
 	// according to the current state gifs toggle between animate and still 
-	if (state === "still") {
+	if (stateOf === "still") {
     $(this).attr("src", $(this).attr("data-animate"));
     $(this).attr("data-state", "animate");
   } else {
